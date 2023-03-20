@@ -1,4 +1,5 @@
-import {printTest} from "/ObjectManager.js"
+import * as OM from "/ObjectManager.js"
+import * as GM from "/GraphicsManager.js"
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Variables
 let subdivisions = 4;                                   //Sphere starting subdivisions
 
@@ -18,11 +19,6 @@ let va = vec4(0.0, 0.0, -1.0,1);                        //Sphere tetrahedron va 
 let vb = vec4(0.0, 0.942809, 0.333333, 1);              //Sphere tetrahedron vb value
 let vc = vec4(-0.816497, -0.471405, 0.333333, 1);       //Sphere tetrahedron vc value
 let vd = vec4(0.816497, -0.471405, 0.333333,1);         //Sphere tetrahedron vd value
-
-let lightPosition = vec4(-4.0, 4.0, -10.0, 0.0 );       //Light position vector
-let lightAmbient = vec4(0.2, 0.2, 0.2, 1.0 );           //Light ambient vector
-let lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );          //Light diffuse vector
-let lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );         //Light specular vector
 
 let materialAmbient = vec4( 1.0, 0.0, 1.0, 1.0 );       //Material ambient vector
 let materialDiffuse = vec4( 1.0, 0.4, 0.2, 1.0 );       //Material diffuse vector
@@ -63,11 +59,6 @@ function renderInit(){
 	//Set up the viewport
 	gl.viewport( 0, 0, canvas.width, canvas.height);
 
-	//Multiply out the diffuse, specular, and ambient products
-	let diffuseProduct = mult(lightDiffuse, materialDiffuse);
-	let specularProduct = mult(lightSpecular, materialSpecular);
-	let ambientProduct = mult(lightAmbient, materialAmbient);
-
 	//Reset the sphere points array points and normals then create new ones with the tetrahedron function
 	pointsArray = [];
 	normalsArray = [];
@@ -98,10 +89,10 @@ function renderInit(){
 	modelViewMatrixLoc = gl.getUniformLocation( program, "modelViewMatrix" );
 
 	//Send shaded light variables to the shader
-	gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), flatten(lightPosition));
-	gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"), flatten(diffuseProduct));
-	gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), flatten(specularProduct));
-	gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"), flatten(ambientProduct));
+	gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), flatten(GM.getLightPosition()));
+	gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"), flatten(GM.getDiffuseProduct(materialDiffuse)));
+	gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), flatten(GM.getSpecularProduct(materialSpecular)));
+	gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"), flatten(GM.getAmbientProduct(materialAmbient)));
 	gl.uniform1f(gl.getUniformLocation(program, "shininess"), materialShininess);
 
 	//Create a black background color
@@ -164,7 +155,7 @@ function main(){
 	//Enable the depth test
 	gl.enable(gl.DEPTH_TEST);
 
-	printTest();
+	OM.printTest();
 
 	//Start recursive render function
 	render();

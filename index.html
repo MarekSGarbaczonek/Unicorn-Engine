@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8" />
     <title>Unicorn Engine</title>
-
     <script id="vertex-shader" type="x-shader/x-vertex">
 
     attribute vec4 vPosition;
@@ -54,13 +53,11 @@
     <script type="text/javascript" src="lib/MV.js"></script>
 
 </head>
-<body onload="main()"; oncontextmenu="return false;">
 <div style = "text-align:center;">
-    <h1>Unicorn Engine</h1>
-    <canvas id="gl-canvas" width="512" height="512" style="border:4px solid #000000; border-radius: 15px; padding: 5px;">
+    <canvas id="gl-canvas" width="900" height="900">
         Epic fail!
     </canvas>
 </div>
-<script src="GameManager.js"></script>
-</body>
+<script type="module" src="ObjectManager.js"></script>
+<script type="module" src="GameManager.js"></script>
 </html>

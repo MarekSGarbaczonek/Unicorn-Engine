@@ -1,3 +1,4 @@
+import {printTest} from "/ObjectManager.js"
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Variables
 let subdivisions = 4;                                   //Sphere starting subdivisions
 
@@ -37,7 +38,7 @@ function map(value, x1, y1, x2, y2){
 	return (value - x1) * (y2 - x2) / (y1 - x1) + x2;
 }
 
-//Draw a line and sphere
+//Draw a sphere
 function drawSphere(){
 	//Clear the buffers
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -163,6 +164,8 @@ function main(){
 	//Enable the depth test
 	gl.enable(gl.DEPTH_TEST);
 
+	printTest();
+
 	//Start recursive render function
 	render();
 }
@@ -187,3 +190,4 @@ function render() {
 	//window.requestAnimationFrame(render());
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Main Functions
+main();

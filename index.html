@@ -1,42 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8" />
     <title>Unicorn Engine</title>
- 
-	<script id="vshader" type="x-shader/x-vertex">
-	
-	attribute vec4 vPosition;
-	attribute vec4 vColor;
-	uniform float vPointSize;
-	uniform mat4 projMatrix;
-	uniform mat4 modelMatrix;
-	uniform mat4 cameraMatrix;
-	varying vec4 fColor;
 
-	void main() {
-		gl_Position = projMatrix * cameraMatrix * modelMatrix * vPosition;
-		gl_PointSize = vPointSize;
-		fColor = vColor;
-  	}
-	</script>
-	
-	<script id="fshader" type="x-shader/x-fragment">
-	precision mediump float;
-	varying vec4 fColor;
-	void main() 
-	{
-		gl_FragColor = fColor;
-  	}
-	</script>
+    <script id="vertex-shader" type="x-shader/x-vertex">
 
-    <script src="lib/webgl-utils.js"></script>
-    <script src="lib/initShaders.js"></script>
-    <script src="lib/MV.js"></script>
-    <script src="GameManager.js"></script>
-  </head>
-  <body onload="main()">
-    <canvas id="webgl" width="800" height="800">
+    attribute vec4 vPosition;
+    attribute vec4 vNormal;
+    uniform vec4 lightPosition;
+    uniform mat4 modelViewMatrix;
+    uniform mat4 projectionMatrix;
+    uniform mat4 cameraMatrix;
+    varying vec3 L, N, V;
+
+    void main()
+    {
+        vec3 pos = (modelViewMatrix * vPosition).xyz;
+        L = normalize(lightPosition.xyz - pos);
+        N = normalize(modelViewMatrix * vNormal).xyz;
+        V = normalize(-pos);
+
+        gl_Position = projectionMatrix * cameraMatrix * modelViewMatrix * vPosition;
+    }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+
+    precision mediump float;
+    varying vec3 L, N, V;
+
+    //Phong
+    uniform vec4 ambientProduct, diffuseProduct, specularProduct;
+    uniform float shininess;
+    uniform float isPhong;
+    uniform float isShaded;
+    //Phong
+
+    void main()
+    {
+        vec3 R = (2.0 * dot(L, N) * N) - L;
+        vec4 diffuse = diffuseProduct * dot(L, N);
+        vec4 ambient = ambientProduct;
+        vec4 specular = specularProduct * pow(max(dot(V, R), 0.0), shininess);
+        vec4 fColor = diffuse + specular + ambient;
+        fColor.a = 1.0;
+        gl_FragColor = fColor;
+    }
+    </script>
+
+    <script type="text/javascript" src="lib/webgl-utils.js"></script>
+    <script type="text/javascript" src="lib/initShaders.js"></script>
+    <script type="text/javascript" src="lib/MV.js"></script>
+
+</head>
+<body onload="main()"; oncontextmenu="return false;">
+<div style = "text-align:center;">
+    <h1>Unicorn Engine</h1>
+    <canvas id="gl-canvas" width="512" height="512" style="border:4px solid #000000; border-radius: 15px; padding: 5px;">
+        Epic fail!
     </canvas>
-  </body>
+</div>
+<script src="GameManager.js"></script>
+</body>
 </html>

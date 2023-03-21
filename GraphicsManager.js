@@ -1,3 +1,7 @@
+import * as GM from "/GraphicsManager.js"
+import * as MM from "/MaterialManager.js"
+import {getMaterialShininess} from "/MaterialManager.js";
+
 let lightPosition = vec4(-4.0, 4.0, -10.0, 0.0 );       //Light position vector
 let lightAmbient = vec4(0.2, 0.2, 0.2, 1.0 );           //Light ambient vector
 let lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );          //Light diffuse vector
@@ -73,4 +77,50 @@ export function setCanvas(newCanvas){
 export function setGl(newGl){
     gl = newGl;
     return gl;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Variables
+let projectionMatrix;               //ModelView and projection matrix global variable
+let projectionMatrixLoc;            //ModelView and projection gpu location matrix global variable
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Variables
+
+export function mainInit(){
+    // Get the rendering context for WebGL
+    canvas = document.getElementById( "gl-canvas" );
+    gl = WebGLUtils.setupWebGL(canvas);
+    if ( !gl ) { alert( "WebGL isn't available" ); }
+
+    //Enable the depth test
+    gl.enable(gl.DEPTH_TEST);
+}
+
+//Initialize the render function
+export function renderInit(){
+    //Initialize the vertex and fragment shaders
+    program = initShaders( gl, "vertex-shader", "fragment-shader" );
+    gl.useProgram( program );
+
+    //Set up the viewport
+    gl.viewport( 0, 0, canvas.width, canvas.height);
+
+    //Create a perspective projection and send it as projectionMatrix to the vertex shader
+    let fovy = 12.5;
+    projectionMatrix = perspective(fovy, 1, -100, 100);
+    projectionMatrixLoc = gl.getUniformLocation( program, "projectionMatrix" );
+    gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
+
+    //Setup the camera matrix with the look at function and send it to the vertex shader as cameraMatrix
+    let cameraMatrix = lookAt(GM.getEye(), GM.getAt(), GM.getUp());
+    let cameraMatrixLoc = gl.getUniformLocation( program, "cameraMatrix" );
+    gl.uniformMatrix4fv(cameraMatrixLoc, false, flatten(cameraMatrix));
+
+    //Send shaded light variables to the shader
+    gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), flatten(lightPosition));
+    gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"), flatten(getDiffuseProduct(MM.getMaterialDiffuse())));
+    gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), flatten(getSpecularProduct(MM.getMaterialSpecular())));
+    gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"), flatten(getAmbientProduct(MM.getMaterialAmbient())));
+    gl.uniform1f(gl.getUniformLocation(program, "shininess"), MM.getMaterialShininess());
+
+    //Create a black background color
+    gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
 }

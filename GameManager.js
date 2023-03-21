@@ -1,11 +1,8 @@
 import * as OM from "/ObjectManager.js"
 import * as GM from "/GraphicsManager.js"
+import * as MM from "/MaterialManager.js"
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Variables
 let subdivisions = 4;                                   //Sphere starting subdivisions
-
-let eye = vec3(0.0, 0.0, 110.0);                        //Camera eye vector
-let at = vec3(0.0, 0.0, 0.0);                           //Camera at vector
-let up = vec3(0.0, 1.0, 0.0);                           //Camera up vector
 
 let program;                                            //Program global variable
 let canvas;                                             //Canvas global variable
@@ -20,11 +17,6 @@ let vb = vec4(0.0, 0.942809, 0.333333, 1);              //Sphere tetrahedron vb 
 let vc = vec4(-0.816497, -0.471405, 0.333333, 1);       //Sphere tetrahedron vc value
 let vd = vec4(0.816497, -0.471405, 0.333333,1);         //Sphere tetrahedron vd value
 
-let materialAmbient = vec4( 1.0, 0.0, 1.0, 1.0 );       //Material ambient vector
-let materialDiffuse = vec4( 1.0, 0.4, 0.2, 1.0 );       //Material diffuse vector
-let materialSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );      //Material specular vector
-let materialShininess = 20.0;                           //Material shininess value
-
 let modelViewMatrix, projectionMatrix;                  //ModelView and projection matrix global variable
 let modelViewMatrixLoc, projectionMatrixLoc;            //ModelView and projection gpu location matrix global variable
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Variables
@@ -32,22 +24,6 @@ let modelViewMatrixLoc, projectionMatrixLoc;            //ModelView and projecti
 //Map value which spans from x1 - y1 and remap the range to x2 - y2
 function map(value, x1, y1, x2, y2){
 	return (value - x1) * (y2 - x2) / (y1 - x1) + x2;
-}
-
-//Draw a sphere
-function drawSphere(){
-	//Clear the buffers
-	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-	//Send sphere points to the buffer
-	let vBuffer = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
-	gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);
-
-	//Send sphere point positions to the vertex shader
-	let vPosition = gl.getAttribLocation(program, "vPosition");
-	gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
-	gl.enableVertexAttribArray(vPosition);
 }
 
 //Initialize the render function
@@ -71,29 +47,19 @@ function renderInit(){
 	gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
 
 	//Setup the camera matrix with the look at function and send it to the vertex shader as cameraMatrix
-	let cameraMatrix = lookAt(eye, at, up);
+	let cameraMatrix = lookAt(GM.getEye(), GM.getAt(), GM.getUp());
 	let cameraMatrixLoc = gl.getUniformLocation( program, "cameraMatrix" );
 	gl.uniformMatrix4fv(cameraMatrixLoc, false, flatten(cameraMatrix));
-
-	//Send normals to the buffer
-	let vNormal = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, vNormal);
-	gl.bufferData(gl.ARRAY_BUFFER, flatten(normalsArray), gl.STATIC_DRAW);
-
-	//Send normal positions to the vertex shader as vNormal
-	let vNormalPosition = gl.getAttribLocation( program, "vNormal");
-	gl.vertexAttribPointer(vNormalPosition, 4, gl.FLOAT, false, 0, 0);
-	gl.enableVertexAttribArray(vNormalPosition);
 
 	//Send modelViewMatrix to the vertex shader
 	modelViewMatrixLoc = gl.getUniformLocation( program, "modelViewMatrix" );
 
 	//Send shaded light variables to the shader
 	gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), flatten(GM.getLightPosition()));
-	gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"), flatten(GM.getDiffuseProduct(materialDiffuse)));
-	gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), flatten(GM.getSpecularProduct(materialSpecular)));
-	gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"), flatten(GM.getAmbientProduct(materialAmbient)));
-	gl.uniform1f(gl.getUniformLocation(program, "shininess"), materialShininess);
+	gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"), flatten(GM.getDiffuseProduct(MM.getMaterialDiffuse())));
+	gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), flatten(GM.getSpecularProduct(MM.getMaterialSpecular())));
+	gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"), flatten(GM.getAmbientProduct(MM.getMaterialAmbient())));
+	gl.uniform1f(gl.getUniformLocation(program, "shininess"), MM.getMaterialShininess());
 
 	//Create a black background color
 	gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
@@ -155,8 +121,6 @@ function main(){
 	//Enable the depth test
 	gl.enable(gl.DEPTH_TEST);
 
-	OM.printTest();
-
 	//Start recursive render function
 	render();
 }
@@ -164,8 +128,8 @@ function main(){
 //Recursive render function that animates the sphere and draws the line and sphere
 function render() {
 	setTimeout(function() {
-		renderInit();       //Initialize render function with the renderInit helper
-		drawSphere();   //Draw the line and sphere onto the screen
+		renderInit();    //Initialize render function with the renderInit helper
+		OM.drawSphere(gl, program);
 
 		//Update the modelViewMatrix with a new transform for the sphere
 		modelViewMatrix = translate(0, 0, 0);

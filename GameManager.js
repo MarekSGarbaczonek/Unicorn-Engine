@@ -11,7 +11,7 @@ function main(){
 function render() {
 	setTimeout(function() {
 		GM.renderInit();    //Initialize render function with the renderInit helper
-		OM.drawSphere(GM.getGl(), GM.getProgram(), 0,0,0);
+		OM.drawSphere(0,0,0);
 
 		//Draw triangles or line strips for the sphere depending on if shaded or not
 		for (let i = 0; i < OM.getIndex(); i += 3) {

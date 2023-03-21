@@ -1,3 +1,4 @@
+import * as GM from "/GraphicsManager.js"
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Variables
 let pointsArray;                                        //Triangle points array
 let normalsArray;                                       //Triangle normals array
@@ -62,7 +63,7 @@ function tetrahedron(a, b, c, d, n) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Helper Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Draw Sphere
 //Draw a sphere
-export function drawSphere(gl, program, x, y, z){
+export function drawSphere(x, y, z){
     //Reset the sphere points array points and normals then create new ones with the tetrahedron function
     pointsArray = [];
     normalsArray = [];
@@ -70,33 +71,33 @@ export function drawSphere(gl, program, x, y, z){
     tetrahedron(va, vb, vc, vd, subdivisions);
 
     //Send normals to the buffer
-    let vNormal = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, vNormal);
-    gl.bufferData(gl.ARRAY_BUFFER, flatten(normalsArray), gl.STATIC_DRAW);
+    let vNormal = GM.getGl().createBuffer();
+    GM.getGl().bindBuffer(GM.getGl().ARRAY_BUFFER, vNormal);
+    GM.getGl().bufferData(GM.getGl().ARRAY_BUFFER, flatten(normalsArray), GM.getGl().STATIC_DRAW);
 
     //Send normal positions to the vertex shader as vNormal
-    let vNormalPosition = gl.getAttribLocation( program, "vNormal");
-    gl.vertexAttribPointer(vNormalPosition, 4, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(vNormalPosition);
+    let vNormalPosition = GM.getGl().getAttribLocation( GM.getProgram(), "vNormal");
+    GM.getGl().vertexAttribPointer(vNormalPosition, 4, GM.getGl().FLOAT, false, 0, 0);
+    GM.getGl().enableVertexAttribArray(vNormalPosition);
 
     //Send modelViewMatrix to the vertex shader
-    modelViewMatrixLoc = gl.getUniformLocation( program, "modelViewMatrix" );
+    modelViewMatrixLoc = GM.getGl().getUniformLocation( GM.getProgram(), "modelViewMatrix" );
 
     //Clear the buffers
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    GM.getGl().clear(GM.getGl().COLOR_BUFFER_BIT | GM.getGl().DEPTH_BUFFER_BIT);
 
     //Send sphere points to the buffer
-    let vBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);
+    let vBuffer = GM.getGl().createBuffer();
+    GM.getGl().bindBuffer(GM.getGl().ARRAY_BUFFER, vBuffer);
+    GM.getGl().bufferData(GM.getGl().ARRAY_BUFFER, flatten(pointsArray), GM.getGl().STATIC_DRAW);
 
     //Send sphere point positions to the vertex shader
-    let vPosition = gl.getAttribLocation(program, "vPosition");
-    gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(vPosition);
+    let vPosition = GM.getGl().getAttribLocation(GM.getProgram(), "vPosition");
+    GM.getGl().vertexAttribPointer(vPosition, 4, GM.getGl().FLOAT, false, 0, 0);
+    GM.getGl().enableVertexAttribArray(vPosition);
 
     //Update the modelViewMatrix with a new transform for the sphere
     modelViewMatrix = translate(x, y, z);
-    gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(modelViewMatrix));
+    GM.getGl().uniformMatrix4fv(modelViewMatrixLoc, false, flatten(modelViewMatrix));
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Draw Sphere

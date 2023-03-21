@@ -1,3 +1,4 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Variables
 let pointsArray;                                        //Triangle points array
 let normalsArray;                                       //Triangle normals array
 let index = 0;                                          //Triangle index
@@ -8,7 +9,14 @@ let vb = vec4(0.0, 0.942809, 0.333333, 1);              //Sphere tetrahedron vb 
 let vc = vec4(-0.816497, -0.471405, 0.333333, 1);       //Sphere tetrahedron vc value
 let vd = vec4(0.816497, -0.471405, 0.333333,1);         //Sphere tetrahedron vd value
 
+let modelViewMatrix, modelViewMatrixLoc;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Variables
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Helper Functions
+//Index getter
+export function getIndex(){
+    return index;
+}
+
 //Create triangles for the sphere
 function triangle(a, b, c) {
     pointsArray.push(a);
@@ -52,9 +60,9 @@ function tetrahedron(a, b, c, d, n) {
     divideTriangle(a, c, d, n);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Helper Functions
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Draw Sphere
 //Draw a sphere
-export function drawSphere(gl, program){
+export function drawSphere(gl, program, x, y, z){
     //Reset the sphere points array points and normals then create new ones with the tetrahedron function
     pointsArray = [];
     normalsArray = [];
@@ -71,6 +79,9 @@ export function drawSphere(gl, program){
     gl.vertexAttribPointer(vNormalPosition, 4, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(vNormalPosition);
 
+    //Send modelViewMatrix to the vertex shader
+    modelViewMatrixLoc = gl.getUniformLocation( program, "modelViewMatrix" );
+
     //Clear the buffers
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -83,4 +94,9 @@ export function drawSphere(gl, program){
     let vPosition = gl.getAttribLocation(program, "vPosition");
     gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(vPosition);
+
+    //Update the modelViewMatrix with a new transform for the sphere
+    modelViewMatrix = translate(x, y, z);
+    gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(modelViewMatrix));
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Draw Sphere

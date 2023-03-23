@@ -3,13 +3,6 @@ import * as GM from "/GraphicsManager.js"
 let pointsArray;                                        //Triangle points array
 let normalsArray;                                       //Triangle normals array
 let index = 0;                                          //Triangle index
-let subdivisions = 4;                                   //Sphere starting subdivisions
-
-let va = vec4(0.0, 0.0, -1.0,1);                        //Sphere tetrahedron va value
-let vb = vec4(0.0, 0.942809, 0.333333, 1);              //Sphere tetrahedron vb value
-let vc = vec4(-0.816497, -0.471405, 0.333333, 1);       //Sphere tetrahedron vc value
-let vd = vec4(0.816497, -0.471405, 0.333333,1);         //Sphere tetrahedron vd value
-
 let modelViewMatrix, modelViewMatrixLoc;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Variables
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Helper Functions
@@ -19,8 +12,8 @@ export function getIndex(){
 }
 
 //Create triangles for the sphere
-function triangle(a, b, c) {
-    pointsArray.push(a);
+function triangle(a, b, c, size) {
+    pointsArray.push(vec4(a[0], a[1], a[2], size));
     pointsArray.push(b);
     pointsArray.push(c);
     normalsArray.push(a[0],a[1], a[2], 0.0);
@@ -30,7 +23,7 @@ function triangle(a, b, c) {
 }
 
 //Subdivide sphere triangles for the tetrahedron function
-function divideTriangle(a, b, c, count) {
+function divideTriangle(a, b, c, count, size) {
     if ( count > 0 ) {
         let ab = mix( a, b, 0.5);
         let ac = mix( a, c, 0.5);
@@ -42,33 +35,39 @@ function divideTriangle(a, b, c, count) {
         bc = normalize(bc, true);
 
         //Recursively call function with the points
-        divideTriangle( a, ab, ac, count - 1 );
-        divideTriangle( ab, b, bc, count - 1 );
-        divideTriangle( bc, c, ac, count - 1 );
-        divideTriangle( ab, bc, ac, count - 1 );
+        divideTriangle( a, ab, ac, count - 1, size);
+        divideTriangle( ab, b, bc, count - 1, size);
+        divideTriangle( bc, c, ac, count - 1, size);
+        divideTriangle( ab, bc, ac, count - 1, size);
     }
     //When all the points are created call the triangle helper function
     else {
-        triangle( a, b, c );
+        triangle(a, b, c, size);
     }
 }
 
 //Tetrahedron sphere generation
-function tetrahedron(a, b, c, d, n) {
-    divideTriangle(a, b, c, n);
-    divideTriangle(d, c, b, n);
-    divideTriangle(a, d, b, n);
-    divideTriangle(a, c, d, n);
+function tetrahedron(a, b, c, d, n, size) {
+    divideTriangle(a, b, c, n, size);
+    divideTriangle(d, c, b, n, size);
+    divideTriangle(a, d, b, n, size);
+    divideTriangle(a, c, d, n, size);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Helper Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Draw Sphere
 //Draw a sphere
-export function drawSphere(x, y, z){
+export function drawSphere(x, y, z, size){
+    let subdivisions = 4;                                       //Sphere starting subdivisions
+    let va = vec4(0.0, 0.0, -1.0, 1/size);                      //Sphere tetrahedron va value
+    let vb = vec4(0.0, 0.942809, 0.333333, 1/size);             //Sphere tetrahedron vb value
+    let vc = vec4(-0.816497, -0.471405, 0.333333, 1/size);      //Sphere tetrahedron vc value
+    let vd = vec4(0.816497, -0.471405, 0.333333, 1/size);       //Sphere tetrahedron vd value
+
     //Reset the sphere points array points and normals then create new ones with the tetrahedron function
     pointsArray = [];
     normalsArray = [];
 
-    tetrahedron(va, vb, vc, vd, subdivisions);
+    tetrahedron(va, vb, vc, vd, subdivisions, 1/size);
 
     //Send normals to the buffer
     let vNormal = GM.getGl().createBuffer();

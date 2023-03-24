@@ -60,7 +60,7 @@ function render() {
 	}, 100)
 
 	//Run the function again recursively
-	window.requestAnimationFrame(render());
+	window.requestAnimationFrame(render);
 }
 
 //Start the program by calling the main function

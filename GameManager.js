@@ -1,5 +1,5 @@
-import * as OM from "/ObjectManager.js"
-import * as GM from "/GraphicsManager.js"
+import * as OM from "./ObjectManager.js"
+import * as GM from "./GraphicsManager.js"
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Main Functions
 //Main initial call and setup
 function main(){

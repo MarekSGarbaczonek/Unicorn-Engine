@@ -1,4 +1,4 @@
-import * as GM from "/GraphicsManager.js"
+import * as GM from "./GraphicsManager.js"
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Variables
 let pointsArray;                                        //Triangle points array
 let normalsArray;                                       //Triangle normals array
@@ -204,12 +204,40 @@ export function drawSphere(x, y, z, subdivisions, size, angleY, angleX){
     GM.getGl().vertexAttribPointer(vPosition, 4, GM.getGl().FLOAT, false, 0, 0);
     GM.getGl().enableVertexAttribArray(vPosition);
 
-    //Update the modelViewMatrix with a new transform for the sphere
     let rotateMatrixY = rotateY(angleY);
     let rotateMatrixX = rotateX(angleX);
     let rotateMatrix = mult(rotateMatrixY, rotateMatrixX);
     let translateMatrix = translate(x,y,z);
     modelViewMatrix = mult(translateMatrix, rotateMatrix);
     GM.getGl().uniformMatrix4fv(modelViewMatrixLoc, false, flatten(modelViewMatrix));
+}
+
+function quatFromEuler(x, y, z) {
+    const cy = Math.cos(y * 0.5);
+    const sy = Math.sin(y * 0.5);
+    const cx = Math.cos(x * 0.5);
+    const sx = Math.sin(x * 0.5);
+    const cz = Math.cos(z * 0.5);
+    const sz = Math.sin(z * 0.5);
+    const qw = cy * cx * cz + sy * sx * sz;
+    const qx = cy * sx * cz - sy * cx * sz;
+    const qy = cy * cx * sz + sy * sx * cz;
+    const qz = sy * cx * cz - cy * sx * sz;
+    return [qx, qy, qz, qw];
+}
+
+function quatToMat4(q) {
+    const [qx, qy, qz, qw] = q;
+    const mat = mat4();
+    mat[0][0] = 1 - 2*qy*qy - 2*qz*qz;
+    mat[0][1] = 2*qx*qy - 2*qz*qw;
+    mat[0][2] = 2*qx*qz + 2*qy*qw;
+    mat[1][0] = 2*qx*qy + 2*qz*qw;
+    mat[1][1] = 1 - 2*qx*qx - 2*qz*qz;
+    mat[1][2] = 2*qy*qz - 2*qx*qw;
+    mat[2][0] = 2*qx*qz - 2*qy*qw;
+    mat[2][1] = 2*qy*qz + 2*qx*qw;
+    mat[2][2] = 1 - 2*qx*qx - 2*qy*qy;
+    return mat;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Draw Sphere

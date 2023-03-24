@@ -10,7 +10,7 @@ let modelViewMatrix, modelViewMatrixLoc;
 export function getIndex(){
     return index;
 }
-
+/*
 function fade(t) {
     return t * t * t * (t * (t * 6 - 15) + 10);
 }
@@ -96,7 +96,7 @@ const p = [151,160,137,91,90,15,
     129,22,39,253, 19,98,108,110,79,113,224,232,178,185, 112,104,218,246,97,228,
     251,34,242,193,238,210,144,12,191,179,162,241, 81,51,145,235,249,14,239,107,
     49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
-    138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180];
+    138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180];*/
 
 
 //Create triangles for the sphere
@@ -161,7 +161,7 @@ function generatePlanet(subdivisions, size){     //Sphere starting subdivisions
     pointsArray = [];
     normalsArray = [];
 
-    tetrahedron(va, vb, vc, vd, subdivisions, 1/size, perlin3);
+    tetrahedron(va, vb, vc, vd, subdivisions, 1/size, noiseNone);
 }
 
 function noiseNone(x,y,z){
@@ -170,7 +170,7 @@ function noiseNone(x,y,z){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Helper Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Draw Sphere
 //Draw a sphere
-export function drawSphere(x, y, z, subdivisions, size, angle){
+export function drawSphere(x, y, z, subdivisions, size, angleY, angleX){
     //Create a planet
     generatePlanet(subdivisions, size);
 
@@ -195,13 +195,19 @@ export function drawSphere(x, y, z, subdivisions, size, angle){
     GM.getGl().bindBuffer(GM.getGl().ARRAY_BUFFER, vBuffer);
     GM.getGl().bufferData(GM.getGl().ARRAY_BUFFER, flatten(pointsArray), GM.getGl().STATIC_DRAW);
 
+    // Get the location of the u_PointSize uniform
+    const pointSizeUniformLocation = GM.getGl().getUniformLocation(GM.getProgram(), "u_PointSize");
+    GM.getGl().uniform1f(pointSizeUniformLocation, 5.0);
+
     //Send sphere point positions to the vertex shader
     let vPosition = GM.getGl().getAttribLocation(GM.getProgram(), "vPosition");
     GM.getGl().vertexAttribPointer(vPosition, 4, GM.getGl().FLOAT, false, 0, 0);
     GM.getGl().enableVertexAttribArray(vPosition);
 
     //Update the modelViewMatrix with a new transform for the sphere
-    let rotateMatrix = rotateY(angle);
+    let rotateMatrixY = rotateY(angleY);
+    let rotateMatrixX = rotateX(angleX);
+    let rotateMatrix = mult(rotateMatrixY, rotateMatrixX);
     let translateMatrix = translate(x,y,z);
     modelViewMatrix = mult(translateMatrix, rotateMatrix);
     GM.getGl().uniformMatrix4fv(modelViewMatrixLoc, false, flatten(modelViewMatrix));

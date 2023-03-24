@@ -7,11 +7,12 @@ function main(){
 	render();
 }
 
+let angle = 0;
 //Recursive render function that animates the sphere and draws the line and sphere
 function render() {
 	setTimeout(function() {
 		GM.renderInit();    //Initialize render function with the renderInit helper
-		OM.drawSphere(0,0,0, 6);
+		OM.drawSphere(0,0,0, 4, 5, angle+=1);
 
 		//Draw triangles or line strips for the sphere depending on if shaded or not
 		for (let i = 0; i < OM.getIndex(); i += 3) {

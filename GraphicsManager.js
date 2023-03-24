@@ -34,20 +34,6 @@ export function getAmbientProduct(materialAmbient){
     return mult(getLightAmbient(), materialAmbient);
 }
 
-let eye = vec3(0.0, 0.0, 110.0);                        //Camera eye vector
-let at = vec3(0.0, 0.0, 0.0);                           //Camera at vector
-let up = vec3(0.0, 1.0, 0.0);                           //Camera up vector
-
-export function getEye(){
-    return eye;
-}
-export function getAt(){
-    return at;
-}
-export function getUp(){
-    return up;
-}
-
 let program;                                            //Program global variable
 let canvas;                                             //Canvas global variable
 let gl;                                                 //GL global variable
@@ -94,6 +80,8 @@ export function mainInit(){
     gl.enable(gl.DEPTH_TEST);
 }
 
+let zoomFactor = 1; // Initial zoom factor
+
 //Initialize the render function
 export function renderInit(){
     //Initialize the vertex and fragment shaders
@@ -109,8 +97,12 @@ export function renderInit(){
     projectionMatrixLoc = gl.getUniformLocation( program, "projectionMatrix" );
     gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
 
+    let eye = vec3(0.0, 0.0, 110.0*1/zoomFactor);
+    let at = vec3(0.0, 0.0, 0.0);//.add(rotatedAt);            //Camera at vector
+    let up = vec3(0.0, 1.0, 0.0);                           //Camera up vector
+
     //Setup the camera matrix with the look at function and send it to the vertex shader as cameraMatrix
-    let cameraMatrix = lookAt(GM.getEye(), GM.getAt(), GM.getUp());
+    let cameraMatrix = lookAt(eye, at, up);
     let cameraMatrixLoc = gl.getUniformLocation( program, "cameraMatrix" );
     gl.uniformMatrix4fv(cameraMatrixLoc, false, flatten(cameraMatrix));
 

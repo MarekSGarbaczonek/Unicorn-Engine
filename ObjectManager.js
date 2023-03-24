@@ -151,8 +151,7 @@ function tetrahedron(a, b, c, d, n, size, noiseFunc) {
     divideTriangle(a, c, d, n, size, noiseFunc);
 }
 
-function generatePlanet(size){
-    let subdivisions = 1;                                       //Sphere starting subdivisions
+function generatePlanet(subdivisions, size){     //Sphere starting subdivisions
     let va = vec4(0.0, 0.0, -1.0, 1/size);                      //Sphere tetrahedron va value
     let vb = vec4(0.0, 0.942809, 0.333333, 1/size);             //Sphere tetrahedron vb value
     let vc = vec4(-0.816497, -0.471405, 0.333333, 1/size);      //Sphere tetrahedron vc value
@@ -164,12 +163,16 @@ function generatePlanet(size){
 
     tetrahedron(va, vb, vc, vd, subdivisions, 1/size, perlin3);
 }
+
+function noiseNone(x,y,z){
+    return vec3(x,y,z);
+}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Helper Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Draw Sphere
 //Draw a sphere
-export function drawSphere(x, y, z, size){
+export function drawSphere(x, y, z, subdivisions, size, angle){
     //Create a planet
-    generatePlanet(size);
+    generatePlanet(subdivisions, size);
 
     //Send normals to the buffer
     let vNormal = GM.getGl().createBuffer();
@@ -198,7 +201,9 @@ export function drawSphere(x, y, z, size){
     GM.getGl().enableVertexAttribArray(vPosition);
 
     //Update the modelViewMatrix with a new transform for the sphere
-    modelViewMatrix = translate(x, y, z);
+    let rotateMatrix = rotateY(angle);
+    let translateMatrix = translate(x,y,z);
+    modelViewMatrix = mult(translateMatrix, rotateMatrix);
     GM.getGl().uniformMatrix4fv(modelViewMatrixLoc, false, flatten(modelViewMatrix));
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Draw Sphere

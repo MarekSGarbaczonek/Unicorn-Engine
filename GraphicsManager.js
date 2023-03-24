@@ -34,20 +34,6 @@ export function getAmbientProduct(materialAmbient){
     return mult(getLightAmbient(), materialAmbient);
 }
 
-let eye = vec3(0.0, 0.0, 110.0);                        //Camera eye vector
-let at = vec3(0.0, 0.0, 0.0);                           //Camera at vector
-let up = vec3(0.0, 1.0, 0.0);                           //Camera up vector
-
-export function getEye(){
-    return eye;
-}
-export function getAt(){
-    return at;
-}
-export function getUp(){
-    return up;
-}
-
 let program;                                            //Program global variable
 let canvas;                                             //Canvas global variable
 let gl;                                                 //GL global variable
@@ -105,14 +91,11 @@ export function renderInit(){
 
     //Create a perspective projection and send it as projectionMatrix to the vertex shader
     let fovy = 12.5;
-    projectionMatrix = perspective(fovy, 1, -100, 100);
+    projectionMatrix = perspective(fovy, 1, -0.001, 100);
     projectionMatrixLoc = gl.getUniformLocation( program, "projectionMatrix" );
     gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
 
-    //Setup the camera matrix with the look at function and send it to the vertex shader as cameraMatrix
-    let cameraMatrix = lookAt(GM.getEye(), GM.getAt(), GM.getUp());
-    let cameraMatrixLoc = gl.getUniformLocation( program, "cameraMatrix" );
-    gl.uniformMatrix4fv(cameraMatrixLoc, false, flatten(cameraMatrix));
+    renderUpdate();
 
     //Send shaded light variables to the shader
     gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), flatten(lightPosition));
@@ -123,4 +106,35 @@ export function renderInit(){
 
     //Create a black background color
     gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
+}
+
+
+
+
+let cameraPosition = vec3(0.0, 0.0, 110.0);
+let cameraTarget = vec3(0.0, 0.0, 0.0);
+let cameraUp = vec3(0.0, 1.0, 0.0);
+
+/*window.addEventListener('load', function() {
+//When mouse drags left rotate that much to the left and if mouse drags right then rotate camera that much right
+//The camera position should remain constant until mouse drags then it could live update
+//The camera should keep cameraTarget be the same at vec3(0.0, 0.0, 0.0)
+    let prevMouseX;
+    canvas.addEventListener('mousemove', (event) => {
+        if (prevMouseX !== undefined) {
+            console.log("Here");
+            const mouseDeltaX = event.clientX - prevMouseX;
+            const rotateAngle = mouseDeltaX * 0.01; // adjust this value to change the sensitivity of the rotation
+            const cameraRotationMatrix = rotateY(rotateAngle); // create a rotation matrix around the y-axis
+            cameraPosition = mult(cameraRotationMatrix, cameraPosition); // apply the rotation to the camera position
+            renderUpdate(); // update the camera matrix in the shader
+        }
+        prevMouseX = event.clientX;
+    });
+});*/
+
+export function renderUpdate(){
+    const cameraMatrix = lookAt(cameraPosition, cameraTarget, cameraUp);
+    const cameraMatrixLoc = gl.getUniformLocation(program, 'cameraMatrix');
+    gl.uniformMatrix4fv(cameraMatrixLoc, false, flatten(cameraMatrix));
 }

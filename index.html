@@ -12,6 +12,7 @@
     uniform mat4 projectionMatrix;
     uniform mat4 cameraMatrix;
     varying vec3 L, N, V;
+    uniform float u_PointSize;
 
     void main()
     {
@@ -20,6 +21,7 @@
         N = normalize(modelViewMatrix * vNormal).xyz;
         V = normalize(-pos);
 
+        gl_PointSize = u_PointSize;
         gl_Position = projectionMatrix * cameraMatrix * modelViewMatrix * vPosition;
     }
     </script>
@@ -45,6 +47,7 @@
         vec4 fColor = diffuse + specular + ambient;
         fColor.a = 1.0;
         gl_FragColor = fColor;
+        //gl_FragColor = vec4(1.0,1.0,1.0,1.0);
     }
     </script>
 

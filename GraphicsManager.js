@@ -1,5 +1,5 @@
-import * as GM from "/GraphicsManager.js"
-import * as MM from "/MaterialManager.js"
+import * as GM from "./GraphicsManager.js"
+import * as MM from "./MaterialManager.js"
 import {getMaterialShininess} from "/MaterialManager.js";
 
 let lightPosition = vec4(-4.0, 4.0, -10.0, 0.0 );       //Light position vector

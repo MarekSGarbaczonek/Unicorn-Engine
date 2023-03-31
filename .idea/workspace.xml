@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="192b6cf5-78ec-4bd4-8df4-5abeb2d9dbde" name="Changes" comment="Updates">
+    <list default="true" id="192b6cf5-78ec-4bd4-8df4-5abeb2d9dbde" name="Changes" comment="Basis">
+      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GraphicsManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/GraphicsManager.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ObjectManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/ObjectManager.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,8 +43,8 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;18.15.0&quot;,
-    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.15.0&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;18.14.2&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.14.2&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -65,6 +65,10 @@
       <workItem from="1679610475876" duration="2312000" />
       <workItem from="1679612825157" duration="268000" />
       <workItem from="1679613104556" duration="17584000" />
+      <workItem from="1679938600391" duration="998000" />
+      <workItem from="1680193555166" duration="10000" />
+      <workItem from="1680289775527" duration="5830000" />
+      <workItem from="1680297318141" duration="6173000" />
     </task>
     <task id="LOCAL-00001" summary="Size">
       <created>1679611012845</created>
@@ -108,7 +112,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679655187696</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Basis">
+      <created>1679692966351</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1679692966351</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

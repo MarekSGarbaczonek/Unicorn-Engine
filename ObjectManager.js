@@ -6,8 +6,7 @@ let index = 0;                                          //Triangle index
 let modelViewMatrix, modelViewMatrixLoc;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Variables
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Helper Functions
-/*
-function fade(t) {
+/*function fade(t) {
     return t * t * t * (t * (t * 6 - 15) + 10);
 }
 
@@ -97,128 +96,6 @@ const p = [151,160,137,91,90,15,
 
 
 //Create triangles for the sphere
-/*function triangle(a, b, c, size) {
-    pointsArray.push(vec4(a[0], a[1], a[2], size));
-    pointsArray.push(vec4(b[0], b[1], b[2], size));
-    pointsArray.push(vec4(c[0], c[1], c[2], size));
-    normalsArray.push(a[0], a[1], a[2], 0.0);
-    normalsArray.push(b[0], b[1], b[2], 0.0);
-    normalsArray.push(c[0], c[1], c[2], 0.0);
-    index += 3;
-}*/
-
-//Subdivide sphere triangles for the tetrahedron function
-/*function divideTriangle(a, b, c, count, size) {
-    if ( count > 0 ) {
-        let ab = mix( a, b, 0.5);
-        let ac = mix( a, c, 0.5);
-        let bc = mix( b, c, 0.5);
-
-        //Calculate ab, ac, bc points
-        ab = normalize(ab, true);
-        ac = normalize(ac, true);
-        bc = normalize(bc, true);
-
-        //Recursively call function with the points
-        divideTriangle( a, ab, ac, count - 1, size);
-        divideTriangle( ab, b, bc, count - 1, size);
-        divideTriangle( bc, c, ac, count - 1, size);
-        divideTriangle( ab, bc, ac, count - 1, size);
-    }
-    //When all the points are created call the triangle helper function
-    else {
-        triangle(a, b, c, size);
-    }
-}
-
-
-
-//Tetrahedron sphere generation
-function tetrahedron(a, b, c, d, n, size) {
-    divideTriangle(a, b, c, n, size);
-    divideTriangle(d, c, b, n, size);
-    divideTriangle(a, d, b, n, size);
-    divideTriangle(a, c, d, n, size);
-}*/
-
-
-/*function generatePlanet(subdivisions, size){     //Sphere starting subdivisions
-    let va = vec4(0.0, 0.0, -1.0, 1/size);                      //Sphere tetrahedron va value
-    let vb = vec4(0.0, 0.942809, 0.333333, 1/size);             //Sphere tetrahedron vb value
-    let vc = vec4(-0.816497, -0.471405, 0.333333, 1/size);      //Sphere tetrahedron vc value
-    let vd = vec4(0.816497, -0.471405, 0.333333, 1/size);       //Sphere tetrahedron vd value
-
-    //Reset the sphere points array points and normals then create new ones with the tetrahedron function
-    pointsArray = [];
-    normalsArray = [];
-
-    //tetrahedron(va, vb, vc, vd, subdivisions, 1/size);
-
-    baseIco(1/size);
-}
-
-function noiseNone(x,y,z){
-    return vec3(x,y,z);
-}*/
-
-
-// function baseIco(size) {
-//     triangle(vertices[0], vertices[8], vertices[4], size);
-//     triangle(vertices[0], vertices[6], vertices[10], size);
-//     triangle(vertices[2], vertices[4], vertices[9], size);
-//     triangle(vertices[2], vertices[6], vertices[4], size);
-//     triangle(vertices[1], vertices[0], vertices[8], size);
-//     triangle(vertices[1], vertices[10], vertices[0], size);
-//     triangle(vertices[3], vertices[9], vertices[2], size);
-//     triangle(vertices[3], vertices[5], vertices[9], size);
-//     triangle(vertices[1], vertices[8], vertices[5], size);
-//     triangle(vertices[1], vertices[7], vertices[5], size);
-//     triangle(vertices[3], vertices[11], vertices[7], size);
-//     triangle(vertices[4], vertices[6], vertices[0], size);
-//     triangle(vertices[3], vertices[2], vertices[11], size);
-//     triangle(vertices[6], vertices[11], vertices[2], size);
-//     triangle(vertices[10], vertices[6], vertices[11], size);
-//     triangle(vertices[3], vertices[7], vertices[5], size);
-//     triangle(vertices[10], vertices[1], vertices[7], size);
-//     triangle(vertices[7], vertices[10], vertices[11], size);
-//     triangle(vertices[8], vertices[9], vertices[4], size);
-//     triangle(vertices[8], vertices[9], vertices[5], size);
-// }
-
-/*function baseIco(size) {
-    let indices = [0,8,4, 0,6,10, 2,4,9, 2,6,4, 1,0,8, 1,10,0, 3,9,2, 3,5,9, 1,8,5, 1,7,5, 3,11,7, 4,6,0, 3,2,11, 6,11,2, 10,6,11, 3,7,5, 10,1,7, 7,10,11, 8,9,4, 8,9,5];
-    for (let i = 0; i < indices.length; i += 3) {
-        let a = vertices[indices[i]];
-        let b = vertices[indices[i + 1]];
-        let c = vertices[indices[i + 2]];
-        let ab = mix(a, b, 0.5);
-        let bc = mix(b, c, 0.5);
-        let ac = mix(a, c, 0.5);
-        triangle(vertices[a], vertices[b], vertices[c], size);
-    }
-    return indices;
-}*/
-
-//Create triangles for the sphere
-// function triangle(a, b, c, size) {
-//     pointsArray.push(vec4(a[0], a[1], a[2], size));
-//     pointsArray.push(vec4(b[0], b[1], b[2], size));
-//     pointsArray.push(vec4(c[0], c[1], c[2], size));
-//     normalsArray.push(a[0], a[1], a[2], 0.0);
-//     normalsArray.push(b[0], b[1], b[2], 0.0);
-//     normalsArray.push(c[0], c[1], c[2], 0.0);
-//     index += 3;
-// }
-
-
-
-
-
-
-
-
-
-//Create triangles for the sphere
 function triangle(a, b, c, size) {
     let center = vec3(0, 0, 0);
     let normalizedA = normalize(vec3(a[0]-center[0], a[1]-center[1], a[2]-center[2]));
@@ -233,6 +110,7 @@ function triangle(a, b, c, size) {
     index += 3;
 }
 
+//Recursively subdivide
 function subdivideTriangle(a, b, c, size, subdivisions) {
     if (subdivisions <= 0) {
         triangle(a, b, c, size);
@@ -247,6 +125,7 @@ function subdivideTriangle(a, b, c, size, subdivisions) {
     }
 }
 
+//Create an icosahedron
 function icosahedron(size, subdivisions) {
     let t = (1.0 + Math.sqrt(5.0)) / 2.0;
     let vertices = [ vec3(-1, t, 0), vec3(1, t, 0), vec3(-1, -t, 0), vec3(1, -t, 0), vec3(0, -1, t), vec3(0, 1, t), vec3(0, -1, -t), vec3(0, 1, -t), vec3(t, 0, -1), vec3(t, 0, 1), vec3(-t, 0, -1), vec3(-t, 0, 1)  ];
@@ -257,7 +136,6 @@ function icosahedron(size, subdivisions) {
         let c = vertices[indices[i + 2]];
         subdivideTriangle(a, b, c, size, subdivisions);
     }
-    return indices;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Helper Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Draw Sphere

@@ -52,7 +52,7 @@ function render() {
 	GM.renderInit();
 
 	//Draw
-	OM.drawSphere(0,0,0, 3, 8, angleY, angleX);
+	OM.drawSphere(0,0,0, 4, 8, angleY, angleX);
 
 	// Run the function again recursively using requestAnimationFrame
 	window.requestAnimationFrame(render);

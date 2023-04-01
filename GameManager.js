@@ -48,8 +48,11 @@ document.addEventListener('keydown', function(e) {
 
 //Recursive render function that animates the sphere and draws the line and sphere
 function render() {
-	GM.renderInit();    //Initialize render function with the renderInit helper
-	OM.drawSphere(0,0,0, 4, 4, angleY, angleX);
+	//Initialize render function with the renderInit helper
+	GM.renderInit();
+
+	//Draw
+	OM.drawSphere(0,0,0, 3, 8, angleY, angleX);
 
 	// Run the function again recursively using requestAnimationFrame
 	window.requestAnimationFrame(render);
@@ -57,4 +60,3 @@ function render() {
 
 //Start the program by calling the main function
 main();
-

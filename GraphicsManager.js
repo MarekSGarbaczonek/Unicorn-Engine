@@ -75,9 +75,6 @@ export function mainInit(){
     canvas = document.getElementById( "gl-canvas" );
     gl = WebGLUtils.setupWebGL(canvas);
     if ( !gl ) { alert( "WebGL isn't available" ); }
-
-    //Enable the depth test
-    gl.enable(gl.DEPTH_TEST);
 }
 
 //Initialize the render function
@@ -85,6 +82,10 @@ export function renderInit(){
     //Initialize the vertex and fragment shaders
     program = initShaders( gl, "vertex-shader", "fragment-shader" );
     gl.useProgram( program );
+    //Enable the depth test
+    gl.enable(gl.DEPTH_TEST);
+    // Set depth function to LESS_EQUAL
+    gl.depthFunc(gl.LEQUAL);
 
     //Set up the viewport
     gl.viewport( 0, 0, canvas.width, canvas.height);

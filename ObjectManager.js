@@ -140,7 +140,7 @@ function icosahedron(size, subdivisions) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Helper Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Draw Sphere
 //Draw a sphere
-export function drawSphere(x, y, z, subdivisions, size, angleY, angleX){
+export function drawSphere(x, y, z, subdivisions, size, angleY, angleX, isLines){
     //Reset the sphere points array points and normals then create new ones with the tetrahedron function
     pointsArray = [];
     normalsArray = [];
@@ -188,11 +188,23 @@ export function drawSphere(x, y, z, subdivisions, size, angleY, angleX){
     // Send the model-view matrix to the shader
     GM.getGl().uniformMatrix4fv(modelViewMatrixLoc, false, flatten(modelViewMatrix));
 
+
+    if (isLines) {
+        for (let i = 0; i < index-1; i += 3) {
+            GM.getGl().drawArrays(GM.getGl().LINE_LOOP, i, 3);      //Shaded
+        }
+    }
+    else{
+        for (let i = 0; i < index-1; i += 3) {
+            GM.getGl().drawArrays(GM.getGl().TRIANGLES, i, 3);      //Shaded
+        }
+    }
+
     //GM.getGl().drawArrays(GM.getGl().POINTS, 0, index);
 
     //Draw triangles or line strips for the sphere depending on if shaded or not
-    for (let i = 0; i < index-1; i += 3) {
-        GM.getGl().drawArrays(GM.getGl().LINE_LOOP, i, 3);      //Shaded
-    }
+    // for (let i = 0; i < index-1; i += 3) {
+    //     GM.getGl().drawArrays(GM.getGl().LINE_LOOP, i, 3);      //Shaded
+    // }
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Draw Sphere

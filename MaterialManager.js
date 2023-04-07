@@ -18,3 +18,7 @@ export function getMaterialSpecular(){
 export function getMaterialShininess(){
     return materialShininess;
 }
+
+export function setMaterialDiffuse(newDiffuse){
+    return materialDiffuse = newDiffuse;
+}

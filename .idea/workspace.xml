@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="192b6cf5-78ec-4bd4-8df4-5abeb2d9dbde" name="Changes" comment="Icosahedron">
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" />
+    <list default="true" id="192b6cf5-78ec-4bd4-8df4-5abeb2d9dbde" name="Changes" comment="dwdwd">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GraphicsManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/GraphicsManager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MaterialManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/MaterialManager.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ObjectManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/ObjectManager.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +50,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
     &quot;ts.external.directory.path&quot;: &quot;P:\\Program Files\\JetBrains\\WebStorm 2022.3.4\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -75,7 +72,12 @@
       <workItem from="1680297318141" duration="6173000" />
       <workItem from="1680565351604" duration="3000" />
       <workItem from="1680683434661" duration="14000" />
-      <workItem from="1680813767761" duration="6597000" />
+      <workItem from="1680813767761" duration="7828000" />
+      <workItem from="1681501965059" duration="4150000" />
+      <workItem from="1682020358172" duration="6000" />
+      <workItem from="1682154727987" duration="1130000" />
+      <workItem from="1682410313476" duration="62000" />
+      <workItem from="1682608086332" duration="1256000" />
     </task>
     <task id="LOCAL-00001" summary="Size">
       <created>1679611012845</created>
@@ -140,7 +142,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680309368752</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="dwdwd">
+      <created>1680864025153</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1680864025153</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -163,6 +172,7 @@
     <MESSAGE value="kinda" />
     <MESSAGE value="Basis" />
     <MESSAGE value="Icosahedron" />
-    <option name="LAST_COMMIT_MESSAGE" value="Icosahedron" />
+    <MESSAGE value="dwdwd" />
+    <option name="LAST_COMMIT_MESSAGE" value="dwdwd" />
   </component>
 </project>

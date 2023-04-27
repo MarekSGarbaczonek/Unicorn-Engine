@@ -5,7 +5,6 @@ import * as MM from "./MaterialManager.js";
 //Main initial call and setup
 function main(){
 	GM.mainInit();
-	GM.renderInit();
 	render();
 }
 
@@ -54,27 +53,49 @@ linesTrianglesButton.addEventListener('click', linesTriangles);
 function linesTriangles(){ isLines = !isLines; }
 
 let subdivisions = 4;
-function subdivide(){ subdivisions++; }
+function subdivide(){
+	if (subdivisions < 5){
+		subdivisions++;
+	}
+}
 const subdivideButton = document.getElementById('subdivideButton');
 subdivideButton.addEventListener('click', subdivide);
 
-function decimate(){ subdivisions--; }
+function decimate(){
+	if (subdivisions > 0){
+		subdivisions--;
+	}
+}
 const decimateButton = document.getElementById('decimateButton');
 decimateButton.addEventListener('click', decimate);
 
+let amplitude = 0.05;
+let frequency = 3.0;
 
 //Recursive render function that animates the sphere and draws the line and sphere
 function render() {
 	//Initialize render function with the renderInit helper
-	//GM.renderInit();
+	GM.renderInit();
 	const pColorSlider = document.getElementById('primary-color-slider');
 	const sColorSlider = document.getElementById('secondary-color-slider');
 
 	let primaryColor = hexToRGB(pColorSlider.value);
+	let secondaryColor = hexToRGB(sColorSlider.value);
 	MM.setMaterialDiffuse(vec4( primaryColor.r, primaryColor.g, primaryColor.b, 1.0));
 
+	const slider1 = document.getElementById("amplitude");
+	slider1.oninput = function() {
+		amplitude = this.value/100.0;
+	};
+
+	const slider2 = document.getElementById("frequency");
+	slider2.oninput = function() {
+		frequency = this.value/100.0;
+	};
+
+
 	//Draw
-	OM.drawSphere(0,0,0, subdivisions, 8, angleY, angleX, isLines);
+	OM.drawSphere(0,0,0, subdivisions, 8, angleY, angleX, isLines, amplitude, frequency, primaryColor, secondaryColor);
 
 	// Run the function again recursively using requestAnimationFrame
 	window.requestAnimationFrame(render);

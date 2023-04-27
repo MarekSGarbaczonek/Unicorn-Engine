@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="192b6cf5-78ec-4bd4-8df4-5abeb2d9dbde" name="Changes" comment="dwdwd">
-      <change afterPath="$PROJECT_DIR$/SphericalNoise.js" afterDir="false" />
+    <list default="true" id="192b6cf5-78ec-4bd4-8df4-5abeb2d9dbde" name="Changes" comment="Noise">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ObjectManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/ObjectManager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SphericalNoise.js" beforeDir="false" afterPath="$PROJECT_DIR$/SphericalNoise.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,7 +158,21 @@
       <option name="project" value="LOCAL" />
       <updated>1680864025153</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Noise">
+      <created>1682610280821</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1682610280821</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Noise">
+      <created>1682610291024</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1682610291024</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -180,6 +196,7 @@
     <MESSAGE value="Basis" />
     <MESSAGE value="Icosahedron" />
     <MESSAGE value="dwdwd" />
-    <option name="LAST_COMMIT_MESSAGE" value="dwdwd" />
+    <MESSAGE value="Noise" />
+    <option name="LAST_COMMIT_MESSAGE" value="Noise" />
   </component>
 </project>

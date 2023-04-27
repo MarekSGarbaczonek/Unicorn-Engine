@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="192b6cf5-78ec-4bd4-8df4-5abeb2d9dbde" name="Changes" comment="Noise">
+    <list default="true" id="192b6cf5-78ec-4bd4-8df4-5abeb2d9dbde" name="Changes" comment="Colors">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/GameManager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ObjectManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/ObjectManager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SphericalNoise.js" beforeDir="false" afterPath="$PROJECT_DIR$/SphericalNoise.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -172,7 +169,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682610291024</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Colors">
+      <created>1682623992622</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1682623992622</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -197,6 +201,7 @@
     <MESSAGE value="Icosahedron" />
     <MESSAGE value="dwdwd" />
     <MESSAGE value="Noise" />
-    <option name="LAST_COMMIT_MESSAGE" value="Noise" />
+    <MESSAGE value="Colors" />
+    <option name="LAST_COMMIT_MESSAGE" value="Colors" />
   </component>
 </project>

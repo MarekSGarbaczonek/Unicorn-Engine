@@ -19,6 +19,8 @@
     uniform mat4 cameraMatrix;
     varying vec3 L, N, V;
     uniform float u_PointSize;
+    attribute vec4 vColor;
+    varying vec4 fsColor;
 
     void main()
     {
@@ -29,6 +31,7 @@
 
         gl_PointSize = u_PointSize;
         gl_Position = projectionMatrix * cameraMatrix * modelViewMatrix * vPosition;
+        fsColor = vColor;
     }
     </script>
 
@@ -36,6 +39,7 @@
 
     precision mediump float;
     varying vec3 L, N, V;
+    varying vec4 fsColor;
 
     //Phong
     uniform vec4 ambientProduct, diffuseProduct, specularProduct;
@@ -47,10 +51,10 @@
     void main()
     {
         vec3 R = (2.0 * dot(L, N) * N) - L;
-        vec4 diffuse = diffuseProduct * dot(L, N);
+        vec4 diffuse = fsColor * dot(L, N);
         vec4 ambient = ambientProduct;
         vec4 specular = specularProduct * pow(max(dot(V, R), 0.0), shininess);
-        vec4 fColor = diffuse + specular + ambient;
+        vec4 fColor = diffuse + specular + fsColor*ambient;
         fColor.a = 1.0;
         gl_FragColor = fColor;
         //gl_FragColor = vec4(1.0,1.0,1.0,1.0);
@@ -70,8 +74,8 @@
         Switch Lines/Triangles
     </button>
 
-    <input type="color" id="primary-color-slider" name="p-color-slider" style="background: white; border-color: lightgray; width: 200px; height: 50px; margin-top: 70px; position: absolute; top: 0; left: 100px; display: block;" value="#4495b8">
-    <input type="color" id="secondary-color-slider" name="s-color-slider" style="background: white; border-color: lightgray; width: 200px; height: 50px; margin-top: 130px; position: absolute; top: 0; left: 100px; display: block;">
+    <input type="color" id="primary-color-slider" name="p-color-slider" style="background: white; border-color: lightgray; width: 200px; height: 50px; margin-top: 70px; position: absolute; top: 0; left: 100px; display: block;" value="#2BC0D4">
+    <input type="color" id="secondary-color-slider" name="s-color-slider" style="background: white; border-color: lightgray; width: 200px; height: 50px; margin-top: 130px; position: absolute; top: 0; left: 100px; display: block;" value="#0E335D">
 
     <button id="subdivideButton"
             style="background: white; border-color: lightgray; width: 95px; height: 50px; font-size: 16px; margin-top: 190px; position: absolute; top: 0; left: 100px; display: block;">
@@ -82,6 +86,9 @@
             style="background: white; border-color: lightgray; width: 95px; height: 50px; font-size: 16px; margin-top: 190px; position: absolute; top: 0; left: 205px; display: block;">
         Decimate
     </button>
+
+    <input type="range" min="0" max="100" value="5" id="amplitude" style="background: white; border-color: lightgray; width: 200px; height: 50px; margin-top: 250px; position: absolute; top: 0; left: 97px; display: block;">
+    <input type="range" min="0" max="2000" value="500" id="frequency" style="background: white; border-color: lightgray; width: 200px; height: 50px; margin-top: 310px; position: absolute; top: 0; left: 97px; display: block;">
 
     <canvas id="gl-canvas" width="980" height="980">
         Epic fail!

@@ -1,4 +1,5 @@
 import * as GM from "./GraphicsManager.js"
+import * as SN from "./SphericalNoise.js"
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Variables
 let pointsArray = [];                                        //Triangle points array
 let normalsArray = [];                                       //Triangle normals array
@@ -6,37 +7,6 @@ let index = 0;                                          //Triangle index
 let modelViewMatrix, modelViewMatrixLoc;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Variables
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Sphere Helper Functions
-let noise = new Noise(Math.random());
-let amplitude = 0.25;
-let frequency = 1.0;
-
-function applyPerlin3D(amplitude, frequency, normalizedA, normalizedB, normalizedC){
-    normalizedA = vec3(normalizedA[0] + amplitude*noise.perlin3(frequency*normalizedA[0], frequency*normalizedA[1], frequency*normalizedA[2]),
-                       normalizedA[1] + amplitude*noise.perlin3(frequency*normalizedA[0], frequency*normalizedA[1], frequency*normalizedA[2]),
-                       normalizedA[2] + amplitude*noise.perlin3(frequency*normalizedA[0], frequency*normalizedA[1], frequency*normalizedA[2]));
-    normalizedB = vec3(normalizedB[0] + amplitude*noise.perlin3(frequency*normalizedB[0], frequency*normalizedB[1], frequency*normalizedB[2]),
-                       normalizedB[1] + amplitude*noise.perlin3(frequency*normalizedB[0], frequency*normalizedB[1], frequency*normalizedB[2]),
-                       normalizedB[2] + amplitude*noise.perlin3(frequency*normalizedB[0], frequency*normalizedB[1], frequency*normalizedB[2]));
-    normalizedC = vec3(normalizedC[0] + amplitude*noise.perlin3(frequency*normalizedC[0], frequency*normalizedC[1], frequency*normalizedC[2]),
-                       normalizedC[1] + amplitude*noise.perlin3(frequency*normalizedC[0], frequency*normalizedC[1], frequency*normalizedC[2]),
-                       normalizedC[2] + amplitude*noise.perlin3(frequency*normalizedC[0], frequency*normalizedC[1], frequency*normalizedC[2]));
-
-    return [normalizedA, normalizedB, normalizedC];
-}
-
-function applySimplex3D(amplitude, frequency, normalizedA, normalizedB, normalizedC){
-    normalizedA = vec3(normalizedA[0] + amplitude*noise.simplex3(frequency*normalizedA[0], frequency*normalizedA[1], frequency*normalizedA[2]),
-                       normalizedA[1] + amplitude*noise.simplex3(frequency*normalizedA[0], frequency*normalizedA[1], frequency*normalizedA[2]),
-                       normalizedA[2] + amplitude*noise.simplex3(frequency*normalizedA[0], frequency*normalizedA[1], frequency*normalizedA[2]));
-    normalizedB = vec3(normalizedB[0] + amplitude*noise.simplex3(frequency*normalizedB[0], frequency*normalizedB[1], frequency*normalizedB[2]),
-                       normalizedB[1] + amplitude*noise.simplex3(frequency*normalizedB[0], frequency*normalizedB[1], frequency*normalizedB[2]),
-                       normalizedB[2] + amplitude*noise.simplex3(frequency*normalizedB[0], frequency*normalizedB[1], frequency*normalizedB[2]));
-    normalizedC = vec3(normalizedC[0] + amplitude*noise.simplex3(frequency*normalizedC[0], frequency*normalizedC[1], frequency*normalizedC[2]),
-                       normalizedC[1] + amplitude*noise.simplex3(frequency*normalizedC[0], frequency*normalizedC[1], frequency*normalizedC[2]),
-                       normalizedC[2] + amplitude*noise.simplex3(frequency*normalizedC[0], frequency*normalizedC[1], frequency*normalizedC[2]));
-
-    return [normalizedA, normalizedB, normalizedC];
-}
 
 //Create triangles for the sphere
 function triangle(a, b, c, size) {
@@ -44,14 +14,17 @@ function triangle(a, b, c, size) {
     let normalizedA = normalize(vec3(a[0]-center[0], a[1]-center[1], a[2]-center[2]));
     let normalizedB = normalize(vec3(b[0]-center[0], b[1]-center[1], b[2]-center[2]));
     let normalizedC = normalize(vec3(c[0]-center[0], c[1]-center[1], c[2]-center[2]));
-    let perlinNoise = applyPerlin3D(0.15, 1.0, normalizedA, normalizedB, normalizedC);
+
+    let perlinNoise = SN.applySphericalPerlin3D(0.05, 5.0, normalizedA, normalizedB, normalizedC);
     normalizedA = perlinNoise[0];
     normalizedB = perlinNoise[1];
     normalizedC = perlinNoise[2];
-    // let simplexNoise = applySimplex3D(0.1, 3.0, normalizedA, normalizedB, normalizedC);
-    // normalizedA = simplexNoise[0];
-    // normalizedB = simplexNoise[1];
-    // normalizedC = simplexNoise[2];
+
+    let simplexNoise = SN.applySphericalSimplex3D(0.05, 1.0, normalizedA, normalizedB, normalizedC);
+    normalizedA = simplexNoise[0];
+    normalizedB = simplexNoise[1];
+    normalizedC = simplexNoise[2];
+
     pointsArray.push(vec4(normalizedA[0], normalizedA[1], normalizedA[2], size));
     pointsArray.push(vec4(normalizedB[0], normalizedB[1], normalizedB[2], size));
     pointsArray.push(vec4(normalizedC[0], normalizedC[1], normalizedC[2], size));

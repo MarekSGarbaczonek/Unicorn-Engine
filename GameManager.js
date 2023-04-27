@@ -5,6 +5,7 @@ import * as MM from "./MaterialManager.js";
 //Main initial call and setup
 function main(){
 	GM.mainInit();
+	GM.renderInit();
 	render();
 }
 
@@ -47,12 +48,12 @@ document.addEventListener('keydown', function(e) {
 	}
 });
 
-let isLines = true;
+let isLines = false;
 const linesTrianglesButton = document.getElementById('linesTrianglesButton');
 linesTrianglesButton.addEventListener('click', linesTriangles);
 function linesTriangles(){ isLines = !isLines; }
 
-let subdivisions = 2;
+let subdivisions = 4;
 function subdivide(){ subdivisions++; }
 const subdivideButton = document.getElementById('subdivideButton');
 subdivideButton.addEventListener('click', subdivide);
@@ -65,8 +66,7 @@ decimateButton.addEventListener('click', decimate);
 //Recursive render function that animates the sphere and draws the line and sphere
 function render() {
 	//Initialize render function with the renderInit helper
-	GM.renderInit();
-
+	//GM.renderInit();
 	const pColorSlider = document.getElementById('primary-color-slider');
 	const sColorSlider = document.getElementById('secondary-color-slider');
 

@@ -69,7 +69,7 @@ function decimate(){
 const decimateButton = document.getElementById('decimateButton');
 decimateButton.addEventListener('click', decimate);
 
-let amplitude = 0.05;
+let amplitude = 0.09;
 let frequency = 3.0;
 
 //Recursive render function that animates the sphere and draws the line and sphere

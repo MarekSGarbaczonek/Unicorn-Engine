@@ -88,7 +88,7 @@ export function renderInit(){
     gl.depthFunc(gl.LEQUAL);
 
     //Set up the viewport
-    gl.viewport( 0, 0, canvas.width, canvas.height);
+    gl.viewport( 0, 100, canvas.width, canvas.height);
 
     //Create a perspective projection and send it as projectionMatrix to the vertex shader
     let fovy = 12.5;

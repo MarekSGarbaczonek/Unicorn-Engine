@@ -1,4 +1,3 @@
-import * as GM from "./GraphicsManager.js"
 import * as MM from "./MaterialManager.js"
 import {getMaterialShininess} from "/MaterialManager.js";
 

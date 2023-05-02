@@ -18,8 +18,3 @@ html, body {
 .button2 {
     margin-top: 50px;
 }
-
-#gl-canvas {
-    position: relative;
-    top: 500px; /* adjust this value to move the canvas up by the desired amount */
-}

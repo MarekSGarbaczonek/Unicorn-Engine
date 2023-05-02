@@ -1,5 +1,4 @@
 import * as MM from "./MaterialManager.js"
-import {getMaterialShininess} from "/MaterialManager.js";
 
 let lightPosition = vec4(-4.0, 4.0, -10.0, 0.0 );       //Light position vector
 let lightAmbient = vec4(0.2, 0.2, 0.2, 1.0 );           //Light ambient vector
